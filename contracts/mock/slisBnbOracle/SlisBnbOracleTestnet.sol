@@ -3,15 +3,15 @@ pragma solidity ^0.8.10;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import { ISnBnbStakeManager } from "../snbnb/interfaces/ISnBnbStakeManager.sol";
+import { ISnBnbStakeManager } from "../../snbnb/interfaces/ISnBnbStakeManager.sol";
 
-contract SlisBnbOracle is Initializable {
+contract SlisBnbOracleTestnet is Initializable {
 
   AggregatorV3Interface internal priceFeed;
   // @dev Stake Manager Address
-  address internal constant stakeManagerAddr = 0x1adB950d8bB3dA4bE104211D5AB038628e477fE6;
+  address internal constant stakeManagerAddr = 0x237E883deeA80F5628234252E7E552aC226FcBC5;
   // @dev New price feed address
-  address internal constant bnbPriceFeedAddr = 0x55328A2dF78C5E379a3FeE693F47E6d4279C2193;
+  address internal constant bnbPriceFeedAddr = 0xE207BEaB2cf9e467695809b0F12Fd912B67d7482;
 
   function initialize(address aggregatorAddress) external initializer {
     priceFeed = AggregatorV3Interface(aggregatorAddress);

@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
+import "hardhat/console.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import { ISnBnbStakeManager } from "../snbnb/interfaces/ISnBnbStakeManager.sol";
+import { ISnBnbStakeManager } from "../../snbnb/interfaces/ISnBnbStakeManager.sol";
 
-contract SlisBnbOracle is Initializable {
+contract SlisBnbOracleHardhat is Initializable {
 
   AggregatorV3Interface internal priceFeed;
   // @dev Stake Manager Address
-  address internal constant stakeManagerAddr = 0x1adB950d8bB3dA4bE104211D5AB038628e477fE6;
+  address internal stakeManagerAddr;
   // @dev New price feed address
-  address internal constant bnbPriceFeedAddr = 0x55328A2dF78C5E379a3FeE693F47E6d4279C2193;
+  address internal bnbPriceFeedAddr;
+
+  constructor(address feedAdapterAddress, address _stakeManagerAddr) {
+    bnbPriceFeedAddr = feedAdapterAddress;
+    stakeManagerAddr = _stakeManagerAddr;
+  }
 
   function initialize(address aggregatorAddress) external initializer {
     priceFeed = AggregatorV3Interface(aggregatorAddress);
@@ -28,6 +34,14 @@ contract SlisBnbOracle is Initializable {
       uint timeStamp,
     /*uint80 answeredInRound*/
     ) = AggregatorV3Interface(bnbPriceFeedAddr).latestRoundData();
+    console.logString("[Contract log] Price: ");
+    console.logInt(price);
+    console.logString("[Contract log] Timestamp: ");
+    console.logUint(timeStamp);
+
+    uint256 conversionRate = ISnBnbStakeManager(stakeManagerAddr).convertBnbToSnBnb(10**10);
+    console.logString("[Contract log] ConversionRate: ");
+    console.logUint(conversionRate);
 
     require(block.timestamp - timeStamp < 300, "BnbOracle/timestamp-too-old");
 
