@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 const { ethers, upgrades} = require("hardhat");
 
-export async function main() {
+async function main() {
     console.log("Network: ", hre.network.name);
     const contractName = /^bsc_testnet$/.test(hre.network.name) ? "SlisBnbOracleTestnet" : "SlisBnbOracle";
     const SlisBnbOracle = await ethers.getContractFactory(contractName);
