@@ -9,7 +9,7 @@ contract SlisBnbOracleTestnet is Initializable {
 
   AggregatorV3Interface internal priceFeed;
   // @dev Stake Manager Address
-  address internal constant stakeManagerAddr = 0x7d8db9Bd5A1Bd3109f01912C520766160d30d666;
+  address internal constant stakeManagerAddr = 0x24B27246783DF12Fcf035Ea25c6d38e1a4146d93;
   // @dev New price feed address
   address internal constant bnbPriceFeedAddr = 0xC09568Ca692bef72D33fCBDEBa790867aeFf3351;
 
@@ -34,6 +34,6 @@ contract SlisBnbOracleTestnet is Initializable {
     if (price < 0) {
       return (0, false);
     }
-    return (bytes32(uint(price) * ISnBnbStakeManager(stakeManagerAddr).convertBnbToSnBnb(10**10)), true);
+    return (bytes32(uint(price) * ISnBnbStakeManager(stakeManagerAddr).convertSnBnbToBnb(10**10)), true);
   }
 }
