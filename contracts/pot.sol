@@ -165,8 +165,7 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
 
     function earned(address account) public view returns (uint) {
         uint unpaidChi = chi - (chiPaid[account] == 0? ONE : chiPaid[account]);
-        uint _reward= (((balanceOf[account] + rewards[account]) * unpaidChi) / 1e27) + rewards[account];
-        return _reward;
+        return (((balanceOf[account] + rewards[account]) * unpaidChi) / 1e27) + rewards[account];
     }
 
     function join(uint256 wad) external update(msg.sender) nonReentrant {
