@@ -138,7 +138,7 @@ describe("Pot contract", function() {
             // Update chi to reflect the new dsr
             await pot.connect(owner).drip();
 
-            let expectedReward = ethers.parseEther('1.1');  // 10 tokens * 10% interest
+            let expectedReward = ethers.parseEther('1');  // 10 tokens * 10% interest
             let actualReward = await pot.earned(owner.address);
             //console.log("actualReward: ", actualReward);
             expect(await pot.earned(owner.address)).to.approximately(expectedReward, 1e12);

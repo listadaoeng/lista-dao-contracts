@@ -11,9 +11,11 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
     // --- Wrapper ---
     using SafeERC20Upgradeable for IERC20Upgradeable;
     // --- Auth ---
-    mapping (address => uint) public wards;
-    function rely(address guy) external auth { wards[guy] = 1; }
-    function deny(address guy) external auth { wards[guy] = 0; }
+    mapping(address => uint) public wards;
+
+    function rely(address guy) external auth {wards[guy] = 1;}
+
+    function deny(address guy) external auth {wards[guy] = 0;}
     modifier auth {
         require(wards[msg.sender] == 1, "Pot/not-authorized");
         _;
@@ -70,23 +72,24 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
 
     // --- Math ---
     uint256 constant ONE = 10 ** 27;
+
     function rpow(uint x, uint n, uint base) internal pure returns (uint z) {
         assembly {
             switch x case 0 {switch n case 0 {z := base} default {z := 0}}
             default {
-                switch mod(n, 2) case 0 { z := base } default { z := x }
+                switch mod(n, 2) case 0 {z := base} default {z := x}
                 let half := div(base, 2)  // for rounding.
-                for { n := div(n, 2) } n { n := div(n,2) } {
+                for {n := div(n, 2)} n {n := div(n, 2)} {
                     let xx := mul(x, x)
-                    if iszero(eq(div(xx, x), x)) { revert(0,0) }
+                    if iszero(eq(div(xx, x), x)) {revert(0, 0)}
                     let xxRound := add(xx, half)
-                    if lt(xxRound, xx) { revert(0,0) }
+                    if lt(xxRound, xx) {revert(0, 0)}
                     x := div(xxRound, base)
-                    if mod(n,2) {
+                    if mod(n, 2) {
                         let zx := mul(z, x)
-                        if and(iszero(iszero(x)), iszero(eq(div(zx, x), z))) { revert(0,0) }
+                        if and(iszero(iszero(x)), iszero(eq(div(zx, x), z))) {revert(0, 0)}
                         let zxRound := add(zx, half)
-                        if lt(zxRound, zx) { revert(0,0) }
+                        if lt(zxRound, zx) {revert(0, 0)}
                         z := div(zxRound, base)
                     }
                 }
@@ -131,7 +134,7 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
     }
 
     modifier authOrOperator {
-        require(operators[msg.sender] == 1 || wards[msg.sender] == 1, "Jar/not-auth-or-operator");
+        require(operators[msg.sender] == 1 || wards[msg.sender] == 1, "Pot/not-auth-or-operator");
         _;
     }
 
@@ -160,10 +163,9 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
         chi = tmp;
     }
 
-
     function earned(address account) public view returns (uint) {
-        uint unpaidChi = chi - (chiPaid[account] == 0? ONE : chiPaid[account]);
-        return (((balanceOf[account] + rewards[account]) * unpaidChi) / 1e27) + rewards[account];
+        uint unpaidChi = chi - (chiPaid[account] == 0 ? chi : chiPaid[account]);
+        return (unpaidChi == 0 ? 0 : (((balanceOf[account] + rewards[account]) * (unpaidChi * 1e27 / chiPaid[account])) / 1e27)) + rewards[account];
     }
 
     function join(uint256 wad) external update(msg.sender) nonReentrant {
@@ -196,11 +198,13 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
 
         emit Exit(msg.sender, wad);
     }
+
     function redeemBatch(address[] memory accounts) external nonReentrant {
         // Allow direct and on-behalf redemption
         require(live == 1, "Pot/not-live");
         _redeemHelper(accounts);
     }
+
     function _redeemHelper(address[] memory accounts) private {
         for (uint i = 0; i < accounts.length; i++) {
             if (block.timestamp < unstakeTime[accounts[i]] && unstakeTime[accounts[i]] != 0 && exitDelay != 0)
