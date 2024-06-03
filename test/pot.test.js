@@ -10,6 +10,8 @@ describe("Pot contract", function() {
     let addrs;
     let ERC20Mock;
     let mockToken;
+    const DSR_10 = '1000000003022266000000000000';  // 10% interest rate
+    const DSR_20 = '1000000005781378656804590540';  // 20% interest rate
 
 
     beforeEach(async function() {
@@ -102,7 +104,7 @@ describe("Pot contract", function() {
             expect(await pot.balanceOf(owner.address)).to.equal(ethers.parseEther('10'));
 
             // Emulate elapsing time and compounding interest by updating dsr
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000000');  // Setting 10% interest rate
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_10);  // Setting 10% interest rate
 
             // Some time elapses
             await ethers.provider.send("evm_increaseTime", [60 * 60 * 24 * 365]);  // One year
@@ -118,7 +120,7 @@ describe("Pot contract", function() {
         });
 
         it("Should correctly deposit funds and calculate interest, waiting 1 year after setting dsr then join", async function() {
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000000');  // Setting 10% interest rate
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_10);  // Setting 10% interest rate
 
             await ethers.provider.send("evm_increaseTime", [60 * 60 * 24 * 365]);  // One year
             await ethers.provider.send("evm_mine");
@@ -148,7 +150,7 @@ describe("Pot contract", function() {
             expect(await pot.balanceOf(owner.address)).to.equal(ethers.parseEther('10'));
 
             // Emulate elapsing time and compounding interest by updating dsr
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000000');  // Setting 10% interest rate
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_10);  // Setting 10% interest rate
             // Some time elapses
             await ethers.provider.send("evm_increaseTime", [60 * 60 * 24 * 365 / 2]);  // Half a year
             await ethers.provider.send("evm_mine");
@@ -159,7 +161,7 @@ describe("Pot contract", function() {
             expect(await pot.earned(owner.address)).to.approximately(expectedReward1, 1e12);
 
             // Now update the dsr
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000005781378656804590540');  // Setting 20% interest rate
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_20);  // Setting 20% interest rate
             // Some more time elapses
             await ethers.provider.send("evm_increaseTime", [60 * 60 * 24 * 365 / 2]);  // Half a year
             await ethers.provider.send("evm_mine");
@@ -179,22 +181,22 @@ describe("Pot contract", function() {
     describe("File function", function() {
         it("Should correctly set and change the DSR using file function", async function() {
             // File new DSR
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000000');
-            expect(await pot.dsr()).to.equal('1000000003022266000000000000');
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_10);
+            expect(await pot.dsr()).to.equal(DSR_10);
 
             // Change DSR
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000005781378656804590540');
-            expect(await pot.dsr()).to.equal('1000000005781378656804590540');
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_20);
+            expect(await pot.dsr()).to.equal(DSR_20);
         });
 
 
         it("Should deny access from unauthorized users to file function", async function() {
             // Attempt to file new DSR from unauthorized address
-            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000000');
-            expect(await pot.dsr()).to.equal('1000000003022266000000000000');
+            await pot.connect(owner).file(ethers.encodeBytes32String("dsr"), DSR_10);
+            expect(await pot.dsr()).to.equal(DSR_10);
 
-            await expect(pot.connect(addr1).file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000001')).to.be.revertedWith("Pot/not-authorized");
-            expect(await pot.dsr()).to.equal('1000000003022266000000000000');
+            await expect(pot.connect(addr1).file(ethers.encodeBytes32String("dsr"), DSR_20)).to.be.revertedWith("Pot/not-authorized");
+            expect(await pot.dsr()).to.equal(DSR_10);
         });
     });
 
@@ -209,7 +211,7 @@ describe("Pot contract", function() {
             // console.log("balanceBefore: %s, potBalanceBefore: %s", userBalanceBefore.toString(), potBalanceBefore.toString());
 
             // Update dsr
-            await pot.file(ethers.encodeBytes32String("dsr"), '1000000003022266000000000000', { from: owner.address });
+            await pot.file(ethers.encodeBytes32String("dsr"), DSR_10, { from: owner.address });
             await ethers.provider.send("evm_increaseTime", [60 * 60 * 24 * 365]); // One year
             await ethers.provider.send("evm_mine");
 

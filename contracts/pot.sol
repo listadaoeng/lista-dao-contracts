@@ -30,8 +30,6 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
     uint256 public dsr;  // the Dai Savings Rate
     uint256 public chi;  // the Rate Accumulator
 
-    //VatLike public vat;  // CDP engine
-    //address public vow;  // debt engine
     uint256 public rho;  // time of last drip
 
     uint256 public live;  // Access Flag
