@@ -182,7 +182,7 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
     function exit(uint256 wad) external update(msg.sender) nonReentrant {
         require(live == 1, "Pot/not-live");
         require(block.timestamp > stakeTime[msg.sender], "Pot/flash-loan-delay");
-        if (wad > 0) {//先记账
+        if (wad > 0) {
             balanceOf[msg.sender] -= wad;
             totalSupply -= wad;
             withdrawn[msg.sender] += wad;
