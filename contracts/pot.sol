@@ -166,8 +166,6 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
     function drip() public returns (uint tmp) {
         require(block.timestamp >= rho, "Pot/invalid-now");
         tmp = rmul(rpow(dsr, block.timestamp - rho, ONE), chi);
-        uint delta_chi = tmp - chi;
-        uint delta_rho = block.timestamp - rho;
         rho = block.timestamp;
         chi = tmp;
     }
