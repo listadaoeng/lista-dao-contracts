@@ -97,15 +97,6 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
         }
     }
 
-    function rmul(uint x, uint y) internal pure returns (uint z) {
-        unchecked {
-            z = x * y;
-            require(y == 0 || z / y == x);
-            z = z / ONE;
-        }
-    }
-
-
     function add(uint x, uint y) internal pure returns (uint z) {
         require((z = x + y) >= x);
     }
@@ -119,6 +110,24 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
             z = int(x) * y;
             require(int(x) >= 0);
             require(y == 0 || z / y == int(x));
+        }
+    }
+
+    function mul(uint256 x, uint256 y) internal pure returns (uint256 z) {
+        unchecked {
+            require(y == 0 || (z = x * y) / y == x);
+        }
+    }
+
+    function rmul(uint256 x, uint256 y) internal pure returns (uint256 z) {
+        unchecked {
+            z = mul(x, y) / ONE;
+        }
+    }
+
+    function rdiv(uint256 x, uint256 y) internal pure returns (uint256 z) {
+        unchecked {
+            z = mul(x, ONE) / y;
         }
     }
 
@@ -165,7 +174,7 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
 
     function earned(address account) public view returns (uint) {
         uint unpaidChi = chi - (chiPaid[account] == 0 ? chi : chiPaid[account]);
-        return (unpaidChi == 0 ? 0 : (((balanceOf[account] + rewards[account]) * (unpaidChi * 1e27 / chiPaid[account])) / 1e27)) + rewards[account];
+        return (unpaidChi == 0 ? 0 : rmul(balanceOf[account] + rewards[account], rdiv(unpaidChi, chiPaid[account]))) + rewards[account];
     }
 
     function join(uint256 wad) external update(msg.sender) nonReentrant {
@@ -213,7 +222,7 @@ contract Pot is Initializable, ReentrancyGuardUpgradeable {
             if (_amount > 0) {
                 rewards[accounts[i]] = 0;
                 withdrawn[accounts[i]] = 0;
-                IERC20(HAY).transfer(accounts[i], _amount);
+                require(IERC20(HAY).transfer(accounts[i], _amount), 'transfer failed');
             }
         }
 
