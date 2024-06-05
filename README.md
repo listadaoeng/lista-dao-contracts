@@ -1,12 +1,3 @@
-# HELIO
-
-Helio is a set of smart contracts that enables users to earn rewards for providing liquidity to the MakerDAO protocol. Helio is designed to be a decentralized, trustless, and permissionless protocol.
-
-## Usage
-To use Helio, you will need to create a MakerDAO vault and deposit collateral into it. You can then use Helio to borrow DAI against your collateral. Helio will automatically start earning rewards for you.
-
-To learn more about how to use Helio, please see the Helio documentation.
-
 # SafePal - Lista Dao //// Pre-Sale · [List Dao Website](https://lista-dao.org)
 
 **The most feature-rich web wallet and browser extension for the [SafePal Wallet](safepal.io)** – with support of jettons, Lista, BNB DNS, liUSD, Bsc Proxy, and Lista Magic.
