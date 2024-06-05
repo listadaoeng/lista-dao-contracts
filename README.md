@@ -48,13 +48,14 @@ And create awallet.
 
 ## Table of contents
 
-- [Requirements](#requirements)
-- [Local Setup](#local-setup)
-- [Dev Mode](#dev-mode)
-- [Linux](#linux-desktop-troubleshooting)
-- [Electron](./docs/electron.md)
-- [Verifying GPG Signatures](./docs/gpg-check.md)
-- [Support Us](#support-us)
+-Website: https://lista.org/
+-Twitter: https://twitter.com/LISTA_DAO
+-Telegram: https://t.me/ListaDAO
+-Telegram Chinese: https://t.me/ListaDAO_CN
+-Telegram Turkey: https://t.me/ListaDAOTurkiyeResmi
+-Discord: https://discord.gg/listadao 
+-Medium Page: https://medium.com/listadao
+
 
 ## Requirements
 
