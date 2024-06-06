@@ -48,12 +48,18 @@ And create awallet.
 
 ## Table of contents
 
-[Website](https://lista.org)
+[Website](https://lista.org) 
+
 [Twitter](https://twitter.com/LISTA_DAO)
+
 [Telegram](https://twitter.com/LISTA_DAO) 
+
 [Telegram Chinese](https://t.me/ListaDAO_CN)
+
 [Telegram Turkey](https://t.me/ListaDAOTurkiyeResmi)
+
 [Discord](https://discord.gg/listadao )
+
 [Medium Page](https://medium.com/listadao)
 
 
