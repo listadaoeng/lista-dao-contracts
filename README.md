@@ -56,7 +56,7 @@ And create awallet.
 
 [Telegram Chinese](https://t.me/ListaDAO_CN) 🇨🇳
 
-[Telegram Turkey](https://t.me/ListaDAOTurkiyeResmi) 🇹🇷
+[Telegram Turkey](https://t.me/listaturkiyeresmi) 🇹🇷
 
 [Discord](https://discord.gg/listadao )
 
