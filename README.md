@@ -52,11 +52,11 @@ And create awallet.
 
 [Twitter](https://twitter.com/LISTA_DAO)
 
-[Telegram](https://twitter.com/LISTA_DAO) 
+[Telegram](https://twitter.com/LISTA_DAO) 🏴󠁧󠁢󠁥󠁮󠁧󠁿
 
-[Telegram Chinese](https://t.me/ListaDAO_CN)
+[Telegram Chinese](https://t.me/ListaDAO_CN) 🇨🇳
 
-[Telegram Turkey](https://t.me/ListaDAOTurkiyeResmi)
+[Telegram Turkey](https://t.me/ListaDAOTurkiyeResmi) 🇹🇷
 
 [Discord](https://discord.gg/listadao )
 
