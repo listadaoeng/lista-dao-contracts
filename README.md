@@ -12,7 +12,7 @@ The wallet is **self-custodial and safe**. The developers **do not** have access
 
  Lista Dao, which entered the dex list with a large volume, started its pre-sale on Safepal (https://safepal.io/), the first digital card application of the Bep20 network, which was also mentioned in Tokenomics, before it was released. to be listed on the stock exchange.
 
-🌉Presale price: 0.10$
+🌉Presale price: Last-PS 0.20$ 27.06.2024 13:00 GMT+1
 
 
 🚀 Exchanges to be listed: Binance, Bybit, Bingx, OKx, MEXc and others...
